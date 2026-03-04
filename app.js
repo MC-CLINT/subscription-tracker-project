@@ -8,11 +8,13 @@ import subscriptionRouter from './routes/subscription.routes.js';
 // /api/v1/auth --- appended before defined routes from authRouter
 // similar for others
 
-app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/users', userRouter)
-app.use('/api/v1/subscriptions', subscriptionRouter)
+
 
 const app = express();
+
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/subscriptions', subscriptionRouter);
 
 
 // path and callback function in 
