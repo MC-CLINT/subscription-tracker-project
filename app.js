@@ -1,1 +1,3 @@
-console.log("Begin")
+import express from 'express'
+
+const app = express();
