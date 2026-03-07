@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import User from '../models/user.model.js';
 import jwt from "jsonwebtoken";
-import { JWT_EXPIRES_IN } from "../config/env";
+import { JWT_SECRET, JWT_EXPIRES_IN } from "../config/env.js";
 
 
 
 // what is a req.body --> req.body is an object conaining data from the client (POST REQUEST)
 export const signUp = async (req, res, next) => {
-    const session = mongoose.startSession();
+    const session = await mongoose.startSession();
     session.startTransaction();
 
     try{
@@ -31,11 +31,11 @@ export const signUp = async (req, res, next) => {
         const hashedPassword =  await bcrypt.hash(password, salt);
 
         //create new user
-        const newUser = await user.create([{name, email, password: hashedPassword}], { session });
+        const newUsers = await User.create([{name, email, password: hashedPassword}], { session });
 
-        const token = jwt.sign({userid: newUser[0]._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
+        const token = jwt.sign({userid: newUsers[0]._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
 
-        (await session).commitTransaction
+        await session.commitTransaction();
         session.endSession();
 
         res.status(201).json({
@@ -48,7 +48,7 @@ export const signUp = async (req, res, next) => {
         })
 
     } catch(error){
-        await (await session).abortTransaction();
+        await session.abortTransaction();
         await session.endSession();
         next(error);
     }
