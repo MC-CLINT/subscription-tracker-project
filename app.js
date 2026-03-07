@@ -1,5 +1,6 @@
 import express from 'express';
 import { PORT } from './config/env.js';
+import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
@@ -13,6 +14,15 @@ import errorMiddleware from './middleware/error.middleware.js';
 
 
 const app = express();
+
+// this is a custom middleware that handle json in requests
+app.use(express.json());
+
+// this helps us to process form data sent via HTML forms in a simple format.
+app.use(express.urlencoded({ extended: true }));
+
+// reads cookies in incoming cookies and stores them for future use
+app.use(cookieParser());
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
