@@ -27,10 +27,12 @@ if (err.code === 11000) {
 // Mongoose Validation Error
 if (err.name === 'ValidationError') {
     const message = Object.values(err.errors).map((value) => value.message);
-    error = new Error(message);
+    error = new Error(message.join(', '));
     error.statusCode = 400;
 }
 
+
+res.status(error.statusCode || 500).json({success: false, error: error.message})
 
 }catch(error){
             next(error)
@@ -39,6 +41,6 @@ if (err.name === 'ValidationError') {
 
 };
 
+// in simpler words, this intercepts  the error to find more information about it 
 
-
-
+export default errorMiddleware;
