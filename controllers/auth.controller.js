@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 import User from '../models/user.model.js';
 
 
@@ -21,7 +22,13 @@ export const signUp = async (req, res, next) => {
         }
 
 
+        // Hashing Password
+        // nb: salt is a complexity used in randomising your hash password
 
+        const salt = await bcrypt.genSalt(10);
+        const hashedpassword =  await bcrypt.hash(password, salt);
+
+        
 
 
 
