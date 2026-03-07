@@ -1,4 +1,40 @@
-const errorMiddleware = (err, req, res, next) => {}
-
-
 //notes------ Create a subscription -> middleware(check for renewal date) -> middleware (check for errors) --> next -> controllers
+// basically middlewares are blocks of code that happens before or after an actual code...basically to intercept it
+
+
+const errorMiddleware = (err, req, res, next) => {
+try{
+let error = { ...err };
+
+error.message = err.message;
+
+console.error(err);
+
+//Mongoose bad ObjectId
+if (err.name === 'CastError') {
+    const message = `Resource not found. Invalid: ${err.path}`;
+    error = new Error(error.message);
+    error.statusCode = 404;
+}
+
+// Mongoose duplicate key
+if (err.code === 11000) {
+    const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
+    error = new Error(message);
+    error.statusCode = 400;
+}
+
+// Mongoose Validation Error
+
+
+
+}catch(error){
+            next(error)
+}
+
+
+};
+
+
+
+
