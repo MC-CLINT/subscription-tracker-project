@@ -5,6 +5,7 @@ import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
 import subscriptionRouter from './routes/subscription.routes.js';
 import connectToDatabase from './database/mongodb.js';
+import errorMiddleware from './middleware/error.middleware.js';
 
 // /api/v1/auth --- appended before defined routes from authRouter
 // similar for others
@@ -16,6 +17,8 @@ const app = express();
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
+
+app.use(errorMiddleware)
 
 
 // path and callback function in 
