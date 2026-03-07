@@ -54,7 +54,34 @@ export const signUp = async (req, res, next) => {
     }
 }
 
-export const signIn = async (req, res, next) => {}
+
+
+export const signIn = async (req, res, next) => {
+    try{
+        const {email, password} = req.body;
+
+        const user = await User.findone({ email });
+
+        if(!user){
+            const error = new Error('User not find')
+            error.statusCode = 404;
+            throw error;
+        }
+
+
+         const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    }catch(error){
+        next(error);
+    }
+
+
+   
+
+
+
+
+}
 
 
 export const signOut = async (req, res, next) => {}
