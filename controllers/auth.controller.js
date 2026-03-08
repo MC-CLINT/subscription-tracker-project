@@ -60,10 +60,10 @@ export const signIn = async (req, res, next) => {
     try{
         const {email, password} = req.body;
 
-        const user = await User.findone({ email });
+        const user = await User.findOne({ email });
 
         if(!user){
-            const error = new Error('User not find')
+            const error = new Error('User not found')
             error.statusCode = 404;
             throw error;
         }
@@ -77,6 +77,12 @@ export const signIn = async (req, res, next) => {
          }
         
           const token = jwt.sign({userid: user._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
+
+          res.status(200).json({
+              success: true,
+              message: 'User signed in successfully',
+              data: { token, user },
+          });
     }catch(error){
         next(error);
     }
