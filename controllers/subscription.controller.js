@@ -17,6 +17,24 @@ export const createSubscription =  async (req, res, next) => {
           next(e);
 
     }
+}
 
-  
+
+export const getUserSubscriptions = async (req, res, next) =>  {
+    try{
+
+        // check if the current user is same as the user in the token
+        if(req.user.id !== req.params.id){
+            const error = new Error("You are not the owner of this subscription")
+            error.status = 401;
+            throw error;
+        }
+
+        const subscriptions = await Subscription.find({user: req.params.id});
+
+        res.status(200).json({success: true, data: subscriptions})
+
+    }catch(e){
+        next(e);
+    }
 }
