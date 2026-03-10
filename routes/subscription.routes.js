@@ -8,8 +8,6 @@ subscriptionRouter.get('/', (req, res)=> res.send("GET all subscriptions"));
 
 subscriptionRouter.get('/user/:id', authorize, getUserSubscriptions);
 
-subscriptionRouter.get('/:id', (req, res)=> res.send("GET subscription details"));
-
 subscriptionRouter.post('/', authorize, createSubscription);
 
 subscriptionRouter.put('/:id', (req, res)=> res.send("UPDATE subscription details"));
