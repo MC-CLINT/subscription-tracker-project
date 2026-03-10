@@ -1,4 +1,4 @@
-export const createSubscription = (req, res, next) => {
+export const createSubscription =  async (req, res, next) => {
     try{
 
         const subscription = await subscription.create(
@@ -6,7 +6,9 @@ export const createSubscription = (req, res, next) => {
                 ...req.body,
                 user: req.user._id,
             }
-        )
+        );
+
+        res.status(201).json({ success: true, data: subscription});
 
     }catch(e){
 
