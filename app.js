@@ -8,6 +8,7 @@ import subscriptionRouter from './routes/subscription.routes.js';
 import connectToDatabase from './database/mongodb.js';
 import errorMiddleware from './middleware/error.middleware.js';
 import arcjetMiddleware from './middleware/arcjet.middleware.js';
+import workflowRouter from './routes/workflow.routes.js';
 
 // /api/v1/auth --- appended before defined routes from authRouter
 // similar for others
@@ -28,11 +29,8 @@ app.use(cookieParser());
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', arcjetMiddleware, userRouter);
 app.use('/api/v1/subscriptions', arcjetMiddleware, subscriptionRouter);
-
-
-
+app.use('/api/v1/workflows', workflowRouter);
 app.use(errorMiddleware)
-
 app.use(arcjetMiddleware)
 
 
